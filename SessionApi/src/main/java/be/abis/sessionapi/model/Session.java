@@ -1,28 +1,42 @@
 package be.abis.sessionapi.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
 
+
+@Entity
+@Table(name = "sessions")
 public class Session {
 
+
+    @SequenceGenerator(name = "MySessionSeqGen", sequenceName = "sessions_seid_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MySessionSeqGen")
+    @Column(name = "seid")
     private int id;
+
+    @OneToOne
+    @JoinColumn(name = "se_cid")
     private Course course;
-    private Teacher teacher;
-    private List<Student> studentList;
-    private List<LocalDate> dates;
+    @Column(name = "sestart")
+    private LocalDate startDate;
+
+    @ElementCollection(fetch = FetchType.EAGER)
+    @CollectionTable(name = "enrolments", joinColumns = @JoinColumn(name = "e_seid"))
+    @OrderColumn(name = "eid")
+    @Column(name = "e_sid")
+    private List<Integer> enrollmentIds;
 
 
     public Session() {
     }
 
-    public Session(int id, Course course, Teacher teacher, List<Student> studentList, List<LocalDate> dates) {
-        this.id = id;
+    public Session(Course course, LocalDate startDate) {
         this.course = course;
-        this.teacher = teacher;
-        this.studentList = studentList;
-        this.dates = dates;
+        this.startDate = startDate;
     }
-
 
     public int getId() {
         return id;
@@ -40,27 +54,19 @@ public class Session {
         this.course = course;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public LocalDate getStartDate() {
+        return startDate;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setStartDate(LocalDate startDate) {
+        this.startDate = startDate;
     }
 
-    public List<Student> getStudentList() {
-        return studentList;
+    public List<Integer> getEnrollmentIds() {
+        return enrollmentIds;
     }
 
-    public void setStudentList(List<Student> studentList) {
-        this.studentList = studentList;
-    }
-
-    public List<LocalDate> getDates() {
-        return dates;
-    }
-
-    public void setDates(List<LocalDate> dates) {
-        this.dates = dates;
+    public void setEnrollmentIds(List<Integer> enrollmentIds) {
+        this.enrollmentIds = enrollmentIds;
     }
 }

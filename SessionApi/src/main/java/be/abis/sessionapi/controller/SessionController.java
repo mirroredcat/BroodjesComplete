@@ -1,6 +1,7 @@
 package be.abis.sessionapi.controller;
 
 
+import be.abis.sessionapi.dto.SessionDTO;
 import be.abis.sessionapi.error.ApiError;
 import be.abis.sessionapi.exceptions.SessionNotFoundException;
 import be.abis.sessionapi.model.Session;
@@ -23,18 +24,10 @@ public class SessionController {
     SessionService sessionService;
 
     @GetMapping(path ="/today", produces = MediaType.APPLICATION_JSON_VALUE)
-    public ResponseEntity<? extends Object> getTodaysSessions() {
+    public ResponseEntity<? extends Object> getTodaysSessions() throws SessionNotFoundException {
 
-        try {
-            List<Session> sessionList = sessionService.getTodaysSessions();
-            return new ResponseEntity<>(sessionList, HttpStatus.OK);
-        } catch (SessionNotFoundException e) {
-            HttpStatus status = HttpStatus.NOT_FOUND;
-            ApiError error = new ApiError("Session not found", status.value(), e.getMessage());
-            HttpHeaders responseHeaders = new HttpHeaders();
-            responseHeaders.add("content-type", MediaType.APPLICATION_PROBLEM_JSON_VALUE);
-            return new ResponseEntity<ApiError>(error, responseHeaders, status);
-        }
+        List<SessionDTO> sessionList = sessionService.getTodaysSessions();
+        return new ResponseEntity<>(sessionList, HttpStatus.OK);
     }
 
 }

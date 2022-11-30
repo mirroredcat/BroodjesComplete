@@ -1,20 +1,33 @@
 package be.abis.sessionapi.model;
 
-public abstract class Person {
+import javax.persistence.*;
 
+@Entity
+@Table(name = "staff")
+public class Staff {
+
+
+    @SequenceGenerator(name = "MyStaffSeqGen", sequenceName = "staff_stid_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MyStaffSeqGen")
+    @Column(name = "stid")
     private int id;
+    @Column(name =  "stfname")
     private String firstName;
+    @Column(name = "stlname")
     private String lastName;
+    @Column(name = "stemail")
+    private String email;
+    @Column(name = "stpass")
+    private String password;
 
-    public Person() {
+    public Staff() {
     }
 
-    public Person(int id, String firstName, String lastName) {
-        this.id = id;
+    public Staff(String firstName, String lastName) {
         this.firstName = firstName;
         this.lastName = lastName;
     }
-
 
     public int getId() {
         return id;
