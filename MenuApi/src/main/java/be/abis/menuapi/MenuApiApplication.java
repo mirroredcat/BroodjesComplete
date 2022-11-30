@@ -10,4 +10,6 @@ public class MenuApiApplication {
         SpringApplication.run(MenuApiApplication.class, args);
     }
 
+
+
 }

@@ -1,17 +1,30 @@
 package be.abis.menuapi.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "sandwiches")
 public class Sandwich {
 
+    @Id
+    @SequenceGenerator(name = "sandwich_seq", sequenceName = "sandwiches_said_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sandwich_seq")
+    @Column(name="said")
     private int id;
+    @Column(name="sname")
     private String sandwichName;
+    @ManyToOne
+    @JoinColumn(name="s_scid")
     private SandwichCompany sandwichCompany;
+    @Column(name="scateg")
     private String category;
+    @Column(name="sprice")
     private Double price;
+    @Column(name="singred")
     private String ingredients;
 
 
-    public Sandwich(int id, String sandwichName, SandwichCompany sandwichCompany, String category, double price, String ingredients) {
-        this.id = id;
+    public Sandwich( String sandwichName, SandwichCompany sandwichCompany, String category, double price, String ingredients) {
         this.sandwichName = sandwichName;
         this.sandwichCompany = sandwichCompany;
         this.category = category;

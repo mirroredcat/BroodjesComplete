@@ -1,7 +1,6 @@
 package be.abis.menuapi.model;
 
 public class Price {
-
     private double newPrice;
 
     public Price() {

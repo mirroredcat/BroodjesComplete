@@ -1,10 +1,10 @@
-package be.abis.menuapi.model;
+package be.abis.menuapi.dto;
 
-public class Ingredients {
+public class IngredientsDTO {
 
     private String newIngredients;
 
-    public Ingredients() {
+    public IngredientsDTO() {
     }
 
     public String getNewIngredients() {
@@ -14,5 +14,4 @@ public class Ingredients {
     public void setNewIngredients(String newIngredients) {
         this.newIngredients = newIngredients;
     }
-
 }

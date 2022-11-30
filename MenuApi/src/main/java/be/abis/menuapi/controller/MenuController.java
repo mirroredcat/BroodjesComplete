@@ -1,6 +1,10 @@
 package be.abis.menuapi.controller;
 
 
+import be.abis.menuapi.dto.*;
+import be.abis.menuapi.exceptions.SandwichAlreadyExistsException;
+import be.abis.menuapi.exceptions.SandwichNotFoundException;
+import be.abis.menuapi.mapper.SandwichMapper;
 import be.abis.menuapi.model.*;
 
 import be.abis.menuapi.service.MenuService;
@@ -29,37 +33,38 @@ public class MenuController {
 
 
     @PostMapping("/find-sandwich")
-    public Sandwich findSandwichByName(@RequestBody SandwichNameRequestBody sandwichName){
+    public Sandwich findSandwichByName(@RequestBody SandwichNameRequestBodyDTO sandwichName) throws SandwichNotFoundException {
         return ms.findSandwichInMenuOfDay(sandwichName.getSandwichName());
     }
 
 
     @GetMapping("/find-sandwich/{id}")
-    public Sandwich findSandwichById(@PathVariable int id){
+    public Sandwich findSandwichById(@PathVariable int id) throws SandwichNotFoundException {
         return ms.findSandwich(id);
     }
 
     @PostMapping("/sandwiches")
     @ResponseStatus(HttpStatus.CREATED)
-    public void addSandwich(@RequestBody Sandwich s){
-        //s.setSandwichCompany(SandwichCompany.fromString(s.getSandwichCompany()));
-        ms.addSandwich(s);
+    public SandwichDTO addSandwich(@RequestBody SandwichCreationDTO s) throws SandwichAlreadyExistsException {
+        Sandwich sandwich = SandwichMapper.toSandwich(s);
+        ms.addSandwich(sandwich);
+        return SandwichMapper.toDto(sandwich);
     }
 
     @PatchMapping("/sandwiches/change-price/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void changePrice(@PathVariable int id, @RequestBody Price newPrice){
+    public void changePrice(@PathVariable int id, @RequestBody Price newPrice) throws SandwichNotFoundException {
         ms.updateSandwichPrice(id, newPrice.getNewPrice());
     }
 
     @PatchMapping("sandwiches/change-ingredients/{id}")
     @ResponseStatus(HttpStatus.ACCEPTED)
-    public void changeIngredientList(@PathVariable int id, @RequestBody Ingredients newIngredients ){
+    public void changeIngredientList(@PathVariable int id, @RequestBody IngredientsDTO newIngredients ) throws SandwichNotFoundException {
         ms.updateSandwichIngredients(id, newIngredients.getNewIngredients());
     }
 
     @DeleteMapping("/sandwiches/{id}")
-    public void deleteSandwich(@PathVariable int id){
+    public void deleteSandwich(@PathVariable int id) throws SandwichNotFoundException {
         ms.deleteSandwich(id);
     }
 
