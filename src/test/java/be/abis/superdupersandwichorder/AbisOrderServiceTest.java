@@ -1,6 +1,7 @@
 package be.abis.superdupersandwichorder;
 
 
+import be.abis.superdupersandwichorder.dto.SessionDTO;
 import be.abis.superdupersandwichorder.exceptions.OrderAlreadyExistsException;
 import be.abis.superdupersandwichorder.exceptions.OrderNotFoundException;
 import be.abis.superdupersandwichorder.model.*;
@@ -36,8 +37,9 @@ public class AbisOrderServiceTest {
     @Mock Order o3;
     @Mock Order o4;
 
-    @Mock Session ses1;
-    @Mock Session ses2;
+    @Mock
+    SessionDTO ses1;
+    @Mock SessionDTO ses2;
 
     @Mock Course c1;
     @Mock Course c2;

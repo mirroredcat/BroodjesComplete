@@ -1,14 +1,25 @@
 package be.abis.superdupersandwichorder.model;
 
+import javax.persistence.*;
 import java.time.LocalDate;
-
+@Entity
+@Table(name = "orders")
 public class StoredDayOrder {
 
+    @SequenceGenerator(name = "MyDayOrderSeqGen", sequenceName = "orders_oid_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MyOrderSeqGen")
+    @Column(name = "oid")
     int id;
+    @Column(name = "odate")
     LocalDate date;
+    @Column(name = "osize" )
     int orderListSize;
+    @Column(name = "o_scid")
     SandwichCompany sandwichCompany;
+    @Column(name = "ototal")
     double dayTotal;
+    @Column(name = "o_seid")
     int sessionID;
 
     public StoredDayOrder() {

@@ -1,9 +1,11 @@
 package be.abis.superdupersandwichorder.model;
 
+import be.abis.superdupersandwichorder.dto.SessionDTO;
+
 public class Order {
 
     private Person personWhoOrdered;
-    private Session session;
+    private SessionDTO session;
     private Sandwich orderedSandwich;
     private String breadOption;
     private String vegetableOption;
@@ -12,7 +14,7 @@ public class Order {
     public Order() {
     }
 
-    public Order(Person personWhoOrdered, Session session, Sandwich orderedSandwich, String breadOption, String vegetableOption, String comment) {
+    public Order(Person personWhoOrdered, SessionDTO session, Sandwich orderedSandwich, String breadOption, String vegetableOption, String comment) {
         this.personWhoOrdered = personWhoOrdered;
         this.session = session;
         this.orderedSandwich = orderedSandwich;
@@ -29,11 +31,11 @@ public class Order {
         this.personWhoOrdered = personWhoOrdered;
     }
 
-    public Session getSession() {
+    public SessionDTO getSession() {
         return session;
     }
 
-    public void setSession(Session session) {
+    public void setSession(SessionDTO session) {
         this.session = session;
     }
 

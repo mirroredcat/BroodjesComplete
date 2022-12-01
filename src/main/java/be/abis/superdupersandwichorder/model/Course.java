@@ -1,20 +1,34 @@
 package be.abis.superdupersandwichorder.model;
 
+import javax.persistence.*;
+
+@Entity
+@Table(name = "courses")
 public class Course {
 
+    @SequenceGenerator(name = "MyCourseSeqGen", sequenceName = "courses_cid_seq", allocationSize = 1)
+    @Id
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "MyCourseSeqGen")
+    @Column(name = "cid")
     private int id;
+    @Column(name = "ctitle")
     private String courseName;
-    private Teacher teacher;
+
+    @ManyToOne
+    @JoinColumn(name = "c_stid")
+    private Staff staff;
+
+    @Column(name = "cduration")
+    private int courseDuration;
 
     public Course() {
     }
 
-    public Course(int id, String courseName, Teacher teacher) {
-        this.id = id;
+    public Course(String courseName, Staff staff, int courseDuration) {
         this.courseName = courseName;
-        this.teacher = teacher;
+        this.staff = staff;
+        this.courseDuration = courseDuration;
     }
-
 
     public int getId() {
         return this.id;
@@ -32,11 +46,19 @@ public class Course {
         this.courseName = courseName;
     }
 
-    public Teacher getTeacher() {
-        return teacher;
+    public Staff getStaff() {
+        return staff;
     }
 
-    public void setTeacher(Teacher teacher) {
-        this.teacher = teacher;
+    public void setStaff(Staff staff) {
+        this.staff = staff;
+    }
+
+    public int getCourseDuration() {
+        return courseDuration;
+    }
+
+    public void setCourseDuration(int courseDuration) {
+        this.courseDuration = courseDuration;
     }
 }

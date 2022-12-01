@@ -2,10 +2,12 @@ package be.abis.superdupersandwichorder.service;
 
 
 
+import be.abis.superdupersandwichorder.dto.SessionDTO;
 import be.abis.superdupersandwichorder.exceptions.OrderAlreadyExistsException;
 import be.abis.superdupersandwichorder.exceptions.OrderNotFoundException;
 import be.abis.superdupersandwichorder.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
@@ -27,6 +29,7 @@ import static java.util.stream.Collectors.groupingBy;
 public class AbisDayOrderService implements DayOrderService{
 
     @Autowired
+    @Qualifier("orderTemplate")
     private RestTemplate rt;
 
     private String baseUrlSessions="http://localhost:8080/sessions/api/today";
@@ -43,10 +46,10 @@ public class AbisDayOrderService implements DayOrderService{
 
     @Override
     public DayOrder newDayOrder(String sandwichCompanyName) {
-        List<Session> sessions;
+        List<SessionDTO> sessions;
 
-        ResponseEntity re = rt.getForEntity(baseUrlSessions, Session[].class);
-        Session[] list = (Session[])re.getBody();
+        ResponseEntity re = rt.getForEntity(baseUrlSessions, SessionDTO[].class);
+        SessionDTO[] list = (SessionDTO[])re.getBody();
         sessions = Arrays.asList(list);
 
         ResponseEntity re2 = rt.getForEntity(baseUrlMenu, Menu.class);
@@ -59,7 +62,7 @@ public class AbisDayOrderService implements DayOrderService{
 
 
 
-        for(Session s:sessions){
+        for(SessionDTO s:sessions){
             for(Student st:s.getStudentList()){
                 Order newOrder = new Order();
                 newOrder.setPersonWhoOrdered(st);
@@ -67,7 +70,7 @@ public class AbisDayOrderService implements DayOrderService{
                 orderList.add(newOrder);
             }
             Order newOrder = new Order();
-            newOrder.setPersonWhoOrdered(s.getTeacher());
+            newOrder.setPersonWhoOrdered(s.getCourse().getStaff());
             newOrder.setSession(s);
             orderList.add(newOrder);
         }
@@ -96,6 +99,7 @@ public class AbisDayOrderService implements DayOrderService{
                 .anyMatch(order -> order.getPersonWhoOrdered().equals(o.getPersonWhoOrdered()));
         if (!foundO){
             dayO.getOrderList().add(o);
+            dayO.setDayTotal(dayO.getDayTotal()+o.getOrderedSandwich().getPrice());
         } else {
             throw new OrderAlreadyExistsException(o.getPersonWhoOrdered().getFirstName() + " " + o.getPersonWhoOrdered().getLastName() + " has already ordered today");
         }
