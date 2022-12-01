@@ -1,24 +1,30 @@
 package be.abis.superdupersandwichorder.model;
 
-public enum SandwichCompany {
+import javax.persistence.*;
+@Entity
+@Table(name="sand_comps")
+public class SandwichCompany {
 
-    VLEUGELS (1,"Vleugels"),
-    PINKYS (2,"Pinky's");
-
+    @Id
+    @SequenceGenerator(name = "sandComp_seq", sequenceName = "sand_comp_scid_seq")
+    @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "sandComp_seq")
+    @Column(name="scid")
     private int id;
+    @Column(name="scname")
     private String companyName;
+    @Column(name="scaddress")
+    private String address;
+    @Column(name="scphone")
+    private String phoneNr;
 
 
-    SandwichCompany(int id, String companyName) {
-        this.id = id;
+    public SandwichCompany(String companyName, String address, String phoneNr) {
         this.companyName = companyName;
+        this.address = address;
+        this.phoneNr = phoneNr;
     }
 
-    public static SandwichCompany fromString(String sandwichCompanyName){
-        for(SandwichCompany sc:SandwichCompany.values()){
-            if (sc.getCompanyName().equalsIgnoreCase(sandwichCompanyName)) return sc;
-        }
-        return null;
+    public SandwichCompany() {
     }
 
     public int getId() {
@@ -35,5 +41,21 @@ public enum SandwichCompany {
 
     public void setCompanyName(String companyName) {
         this.companyName = companyName;
+    }
+
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    public String getPhoneNr() {
+        return phoneNr;
+    }
+
+    public void setPhoneNr(String phoneNr) {
+        this.phoneNr = phoneNr;
     }
 }

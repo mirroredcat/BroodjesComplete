@@ -15,7 +15,8 @@ public class StoredDayOrder {
     LocalDate date;
     @Column(name = "osize" )
     int orderListSize;
-    @Column(name = "o_scid")
+    @ManyToOne
+    @JoinColumn(name = "o_scid")
     SandwichCompany sandwichCompany;
     @Column(name = "ototal")
     double dayTotal;

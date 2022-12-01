@@ -75,9 +75,9 @@ public class Order {
     public String toString(){
         return String.format("%-15s| %-15s| %-15s| %-15s |%-15s",
                 this.getPersonWhoOrdered().getFirstName(),
-                this.getOrderedSandwich().getSandwichName(),
-                this.getBreadOption(),
-                this.getVegetableOption(),
-                this.getComment()==null? "": this.getComment());
+                this.getOrderedSandwich()==null ?  " ": this.getOrderedSandwich().getSandwichName(),
+                this.getOrderedSandwich()==null ?  " ": this.getBreadOption(),
+                this.getOrderedSandwich()==null ?  " ": this.getVegetableOption(),
+                this.getOrderedSandwich()==null ?  " ": (this.getComment()==null? "": this.getComment()));
     }
 }

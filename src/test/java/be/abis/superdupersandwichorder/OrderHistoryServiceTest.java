@@ -71,8 +71,10 @@ public class OrderHistoryServiceTest {
 
     @BeforeAll
     static void setup() {
+        SandwichCompany c = new SandwichCompany();
+        c.setCompanyName("Vleugels");
         storedDayOrder = new StoredDayOrder();
-        storedDayOrder.setSandwichCompany(SandwichCompany.VLEUGELS);
+        storedDayOrder.setSandwichCompany(c);
         storedDayOrder.setOrderListSize(5);
         storedDayOrder.setDate(LocalDate.now());
         storedDayOrder.setId(1);

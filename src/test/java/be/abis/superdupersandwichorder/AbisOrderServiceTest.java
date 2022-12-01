@@ -2,6 +2,7 @@ package be.abis.superdupersandwichorder;
 
 
 import be.abis.superdupersandwichorder.dto.SessionDTO;
+import be.abis.superdupersandwichorder.exceptions.CannotSetMenuException;
 import be.abis.superdupersandwichorder.exceptions.OrderAlreadyExistsException;
 import be.abis.superdupersandwichorder.exceptions.OrderNotFoundException;
 import be.abis.superdupersandwichorder.model.*;
@@ -54,11 +55,18 @@ public class AbisOrderServiceTest {
     @Mock Menu m1;
     @Mock SandwichCompany sc1;
 
+    @Mock OrderPreferencesRequestBody op;
 
+    //this test works if run alone(we changed data and run again, ok)
+    //fails if run with all tests
+    //no idea why
     @Test
-    public void dayOrderHas12Orders(){
-        dos.newDayOrder("Vleugels");
-        assertEquals(12, dos.getDayOrder().getOrderList().size());
+    public void dayOrderHas5Orders() throws CannotSetMenuException {
+        SandwichCompanyRequestBody scrb = new SandwichCompanyRequestBody();
+        scrb.setSandwichCompanyName("Vleugels");
+        dos.newDayOrder(scrb);
+        int i = dos.getDayOrder().getOrderList().size();
+        assertEquals(5, i);
     }
 
     @Test
@@ -135,6 +143,8 @@ public class AbisOrderServiceTest {
         List<Order> mockList = new ArrayList<>();
         when(this.o1.getPersonWhoOrdered()).thenReturn(p1);
         when(this.o2.getPersonWhoOrdered()).thenReturn(p2);
+
+
         mockList.add(o1);
         mockList.add(o2);
 
@@ -143,6 +153,7 @@ public class AbisOrderServiceTest {
 
         int beforeAdd = dos.getAllOrders().size();
         when(this.o3.getPersonWhoOrdered()).thenReturn(p3);
+        when(this.o3.getOrderedSandwich()).thenReturn(s1);
         dos.addOrder(o3);
         int afterAdd = dos.getAllOrders().size();
 
@@ -170,16 +181,19 @@ public class AbisOrderServiceTest {
         mockList.add(o1);
         mockList.add(o2);
 
+        when(this.p1.getId()).thenReturn(5);
+        when(this.o1.getPersonWhoOrdered()).thenReturn(p1);
         when(this.dayOrder.getOrderList()).thenReturn(mockList);
         dos.setDayOrder(dayOrder);
 
         int beforeDelete = dos.getAllOrders().size();
-        dos.deleteOrder(o1);
+        dos.deleteOrder(5);
         int afterDelete = dos.getAllOrders().size();
 
         assertEquals(afterDelete, beforeDelete-1);
     }
 
+    // test written badly, it works in postman
     @Test
     public void updateOrderTest() throws OrderNotFoundException {
         List<Order> mockList = new ArrayList<>();
@@ -192,12 +206,20 @@ public class AbisOrderServiceTest {
         when(this.dayOrder.getOrderList()).thenReturn(mockList);
         dos.setDayOrder(dayOrder);
 
-        when(this.o3.getPersonWhoOrdered()).thenReturn(p1);
+        when(this.p1.getId()).thenReturn(5);
+        when(this.o1.getPersonWhoOrdered()).thenReturn(p1);
         //when(this.o3.getOrderedSandwich()).thenReturn(s1);
-        when(this.o3.getBreadOption()).thenReturn("wit");
+        //when(this.o3.getBreadOption()).thenReturn("wit");
         //when(this.o3.getVegetableOption()).thenReturn("smos");
+        when(this.op.getBreadOption()).thenReturn("wit");
+        when(this.op.getOrderedSandwichName()).thenReturn("Hesp");
+        when(this.op.getVegetableOption()).thenReturn("ja");
 
-        dos.updateOrder(o3);
+
+        Order or1 = dos.updateOrder(5, op);
+
+        System.out.println(dayOrder.getOrderList().size());
+        System.out.println(or1);
 
         assertEquals("wit", dos.findOrder("John", "Doe").getBreadOption());
     }
