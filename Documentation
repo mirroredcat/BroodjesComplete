@@ -1,37 +1,121 @@
-Sessionapi
+Session API
 
 GET http://localhost:8080/sessions/api/today
 returns the sessions that take place today
 
-Menuapi
+____________________________________________________
 
-GET: http://localhost:8000/menu/api
-Returns the menu of the day
---------------------------------------------------------
+Menu API
 
-POST: http://localhost:8000/menu/api
-Sets the menu of the day
--------------------------------------------------------
+POST http://localhost:8000/api/menu
 
-POST: http://localhost:8000/menu/api/find-sandwich
-Finds a sandwich in the database by name using a sandwichRequestBodyDTO
--------------------------------------------------------
+	RequestBody {"sandwichCompanyName":"Pinky's"}
 
-GET: http://localhost:8000/menu/api/find-sandwich/{id}
-Finds a sandwich in the database by its id
--------------------------------------------------------
+sets the day menu to the preferred company and gets all sandwiches from the data base
 
-POST: http://localhost:8000/menu/api/sandwiches
-Adds a sandwich to database using a sandwichcreationDTO
--------------------------------------------------------
+-------------------
 
-PATCH: http://localhost:8000/menu/api/sandwiches/change-price/{id}
-Updates the price of a sandwich using price requestbody and finding the sandwich by id
--------------------------------------------------------
+GET http://localhost:8000/api/menu
 
-PATCH : http://localhost:8000/menu/api/sandwiches/change-ingredients/{id}
-Updates the ingredients of a sandwich using ingredientsDTO requestbody and finding the sandwich by id
--------------------------------------------------------
+gets the day Menu
 
-DELETE : http://localhost:8000/menu/api/sandwiches/{id}
-Finds the sandwich by their id and deletes it from the database
+-------------------
+GET http://localhost:8000/api/menu/find-sandwich/12
+
+gets sandwich by id
+
+-------------------
+
+POST http://localhost:8000/api/menu/find-sandwich
+
+	RequestBody {"sandwichName":"Hesp"}
+
+finds sansdwich by name in the day menu
+
+-------------------
+
+POST http://localhost:8000/api/menu/sandwiches
+
+	RequestBody
+	{
+    "sandwichName": "TestSandwich2million",
+    "sandwichCompanyId": "1",
+    "sandwichCompanyName": "Vleugels",
+    "sandwichCompanyAddress":"J. B. Van Monsstraat 127, 3000, Leuven ",
+    "sandwichCompanyTelNo":"0488451720",
+    "category": "vlees",
+    "price": 5.0,
+    "ingredients": "null"
+}
+
+adds a new sandwich to the db
+
+-------------------
+
+PATCH http://localhost:8000/api/menu/sandwiches/change-price/12
+
+		RequestBody {"newPrice":"45.00"}
+
+changes the price of the sandwich with id 12
+-------------------
+
+PATCH http://localhost:8000/api/menu/sandwiches/change-ingredients/12
+
+	RequestBody {"newIngredients":"potato, ham, ketchup"}
+	
+changes the ingredient list of sandwich 12
+
+-------------------
+
+DELETE http://localhost:8000/api/menu/sandwiches/5103
+
+deletes sandwich with id 5130
+
+
+
+____________________________________________________
+
+
+SuperDuperSandwichOrder API (aka top level)
+
+-------------------
+POST http://localhost:9000/order-sandwiches
+
+	RequestBody {"sandwichCompanyName":"Vleugels"}
+	
+sets the day order to the chosen sandwoch company
+sets the day order date
+gets all sessions that are taking place and creates empty orders for everyone
+
+-------------------
+GET http://localhost:9000/order-sandwiches/menu
+
+prints the menu of the set restaurant
+-------------------
+
+PUT http://localhost:9000/order-sandwiches/orders/persons/1
+
+	Request Body {
+    "orderedSandwichName":"Hummus",
+    "breadOption": "bruin",
+    "vegetableOption": "nee",
+    "comment":""
+}
+
+sets the order preferences for person with id 1 ( the empty order already exists for pers 1)
+
+-------------------
+GET http://localhost:9000/order-sandwiches/orders
+
+gets all orders of the day
+
+-------------------
+
+DELETE http://localhost:9000/order-sandwiches/orders/persons/103
+
+permanently deletes an order from the day order list 
+
+-------------------
+GET http://localhost:9000/order-sandwiches/orders/print
+
+prints day order to file and saves order summary per session (doesn't work properly yet)
