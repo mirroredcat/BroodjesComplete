@@ -1,0 +1,37 @@
+Sessionapi
+
+GET http://localhost:8080/sessions/api/today
+returns the sessions that take place today
+
+Menuapi
+
+GET: http://localhost:8000/menu/api
+Returns the menu of the day
+--------------------------------------------------------
+
+POST: http://localhost:8000/menu/api
+Sets the menu of the day
+-------------------------------------------------------
+
+POST: http://localhost:8000/menu/api/find-sandwich
+Finds a sandwich in the database by name using a sandwichRequestBodyDTO
+-------------------------------------------------------
+
+GET: http://localhost:8000/menu/api/find-sandwich/{id}
+Finds a sandwich in the database by its id
+-------------------------------------------------------
+
+POST: http://localhost:8000/menu/api/sandwiches
+Adds a sandwich to database using a sandwichcreationDTO
+-------------------------------------------------------
+
+PATCH: http://localhost:8000/menu/api/sandwiches/change-price/{id}
+Updates the price of a sandwich using price requestbody and finding the sandwich by id
+-------------------------------------------------------
+
+PATCH : http://localhost:8000/menu/api/sandwiches/change-ingredients/{id}
+Updates the ingredients of a sandwich using ingredientsDTO requestbody and finding the sandwich by id
+-------------------------------------------------------
+
+DELETE : http://localhost:8000/menu/api/sandwiches/{id}
+Finds the sandwich by their id and deletes it from the database
