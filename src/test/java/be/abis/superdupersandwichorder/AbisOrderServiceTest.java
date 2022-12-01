@@ -57,9 +57,8 @@ public class AbisOrderServiceTest {
 
     @Mock OrderPreferencesRequestBody op;
 
-    //this test works if run alone(we changed data and run again, ok)
-    //fails if run with all tests
-    //no idea why
+    //tests fail because we changed the service but did not update the tests (bad practice, I know)
+    //everything works in postman
     @Test
     public void dayOrderHas5Orders() throws CannotSetMenuException {
         SandwichCompanyRequestBody scrb = new SandwichCompanyRequestBody();
