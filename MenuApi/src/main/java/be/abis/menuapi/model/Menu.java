@@ -10,13 +10,7 @@ public class Menu {
     private List<Sandwich> sandwichList;
 
     public Menu() {}
-    /*
-    public Menu(String sandwichCompanyName) {
-        this.sandwichCompany = (sandwichCompanyName.equals("Vleugels")? SandwichCompany.VLEUGELS : SandwichCompany.PINKYS);
-        this.sandwichList = sr.findSandwichesByRestaurant(sandwichCompanyName);
-    }
 
-     */
 
     public SandwichCompany getSandwichCompany() {
         return sandwichCompany;

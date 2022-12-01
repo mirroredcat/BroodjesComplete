@@ -1,10 +1,9 @@
-package be.abis.menuapi.model;
+package be.abis.menuapi.dto;
 
-public class SandwichCompanyRequestBody {
+public class SandwichCompanyRequestBodyDTO {
+
     private String sandwichCompanyName;
 
-    public SandwichCompanyRequestBody() {
-    }
 
     public String getSandwichCompanyName() {
         return sandwichCompanyName;
@@ -13,5 +12,4 @@ public class SandwichCompanyRequestBody {
     public void setSandwichCompanyName(String sandwichCompanyName) {
         this.sandwichCompanyName = sandwichCompanyName;
     }
-
 }
